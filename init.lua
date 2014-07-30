@@ -95,10 +95,10 @@ function xban.ban_player(player, source, expires, reason) --> bool, err
 	e.banned = true
 	local msg
 	local date = (expires and os.date("%c", expires)
-	  or "the end of time")
+	  or "well... your arse will never come back, let's just put it that way. Now pissoff!!!!")
 	if expires then
 		table.insert(tempbans, e)
-		msg = ("Banned: Expires: %s, Reason: %s"):format(date, reason)
+		msg = ("Banned: Expires: %s, Why your banned: %s"):format(date, reason)
 	else
 		msg = ("Banned: Reason: %s"):format(reason)
 	end
@@ -163,7 +163,7 @@ minetest.register_on_prejoinplayer(function(name, ip)
 	if e.banned then
 		local date = (e.expires and os.date("%c", e.expires)
 		  or "the end of time")
-		return ("Banned: Expires: %s, Reason: %s"):format(
+		return ("Banned: Expires: %s, Why your banned: %s"):format(
 		  date, e.reason)
 	end
 end)
@@ -191,6 +191,7 @@ minetest.register_chatcommand("xban", {
 		xban.ban_player(plname, name, nil, reason)
 		minetest.chat_send_player(name,
 		  ("Banned %s."):format(plname))
+		minetest.chat_send_all(name.." banned "..plname.." from the server!!!")
 	end,
 })
 
